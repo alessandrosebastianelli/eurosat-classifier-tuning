@@ -8,7 +8,6 @@ class EuroSATClassifier(pl.LightningModule):
         super(EuroSATClassifier, self).__init__()
 
         self.loss     = torch.nn.CrossEntropyLoss()
-
         self.resnet    = resnet50(weights=None)
         self.resnet.fc = torch.nn.LazyLinear(nclasses)
     
