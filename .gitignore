@@ -2,3 +2,5 @@ EuroSAT/
 EuroSAT-split/
 EuroSAT.zip
 __pycache__
+lightning_logs/
+saved_models/
