@@ -1,6 +1,12 @@
+from pytorch_grad_cam import GradCAM
+from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
+from pytorch_grad_cam.utils.image import show_cam_on_image
 from torchvision.models import resnet50
 import pytorch_lightning as pl
+import numpy as np
 import torch
+import cv2
+import os
 
 class EuroSATClassifier(pl.LightningModule):
 
@@ -8,11 +14,11 @@ class EuroSATClassifier(pl.LightningModule):
         super(EuroSATClassifier, self).__init__()
 
         self.loss     = torch.nn.CrossEntropyLoss()
-        self.resnet    = resnet50(weights=None)
-        self.resnet.fc = torch.nn.LazyLinear(nclasses)
+        self.model    = resnet50(weights=None)
+        self.model.fc = torch.nn.LazyLinear(nclasses)
     
     def forward(self, x):
-        return self.resnet(x)
+        return self.model(x)
 
     def training_step(self, batch, batch_idx):
         inputs, labels = batch
@@ -39,7 +45,7 @@ class EuroSATClassifier(pl.LightningModule):
         _, predicted = torch.max(outputs.data, 1)
         accuracy = torch.sum(predicted == labels.data).item() / labels.size(0)
         self.log('v_acc', accuracy, on_epoch=True, prog_bar=True)
-
+        
         return val_loss
     
     def configure_optimizers(self):

@@ -36,9 +36,13 @@ class EuroSATDataModule(pl.LightningDataModule):
         transform          = transforms.Compose([transforms.ToTensor()])
         self.train_dataset = EuroSATDataset(os.path.join('EuroSAT-split', 'train'), transform=transform)
         self.valid_dataset = EuroSATDataset(os.path.join('EuroSAT-split', 'val'),   transform=transform)
+        self.test_dataset  = EuroSATDataset(os.path.join('EuroSAT-split', 'val'),   transform=transform)
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, persistent_workers=True)
 
     def val_dataloader(self):
         return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, persistent_workers=True)
+    
+    def test_dataloader(self):
+        return DataLoader(self.test_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, persistent_workers=True)
