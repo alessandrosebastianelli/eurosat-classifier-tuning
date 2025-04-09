@@ -4,7 +4,7 @@ rm -r EuroSAT
 rm -r EuroSAT-split
 
 echo "Downloading EuroSAT"
-#wget --no-check-certificate https://madm.dfki.de/files/sentinel/EuroSAT.zip
+wget --no-check-certificate https://madm.dfki.de/files/sentinel/EuroSAT.zip
 
 echo "Unzip folder and prepare"
 unzip -qq EuroSAT.zip
